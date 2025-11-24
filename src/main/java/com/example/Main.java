@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Main {
     public static void main(String[] args) {
         String clusterEndpoint = System.getenv("DSQL_CLUSTER_ENDPOINT");
-        String url = "jdbc:aws-dsql:postgresql://" + clusterEndpoint + "/postgres?user=admin&profile=work";
+        String url = "jdbc:aws-dsql:postgresql://" + clusterEndpoint + "/postgres?user=admin";
         
         try (Connection conn = DriverManager.getConnection(url)) {
             
@@ -45,16 +45,7 @@ public class Main {
                                          ", city=" + rs.getString("city") + ", telephone=" + rs.getString("telephone"));
                     }
                 }
-            }
-            
-            // Delete data
-            String deleteSql = "DELETE FROM owner WHERE name = ?";
-            try (PreparedStatement pstmt = conn.prepareStatement(deleteSql)) {
-                pstmt.setString(1, "John Doe");
-                int deleted = pstmt.executeUpdate();
-                System.out.println("Deleted " + deleted + " row(s)");
-            }
-            
+            }            
         } catch (Exception e) {
             e.printStackTrace();
         }
